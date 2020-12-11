@@ -1,0 +1,756 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Partner Community -1- Basic API version 2.0",
+    "description": {
+      "$ref": "md_files/README.md"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+        "url": "https://se-exchange-pre-prod-sandbox.apigee.net/fd-wiser",
+	"description": "Sandbox"
+    },
+    {
+        "url": "https://se-exchange-pre-prod-pre-prod.apigee.net/fd-wiser",
+	"description": "Production"
+    }
+  ],
+  "paths": {
+    "/v1/collectiveResidentialData/delta/{programId}/{siteId}": {
+      "get": {
+        "tags": [
+          "Data",
+          "Community"
+        ],
+        "summary": "Get delta values for particular site in a program",
+        "description": "Get energy delta (in Watt per hour) by category and group result by period for a site part of a residential collective program\nThis will return energy data (deltas) matching the requested parameters for a single site.",
+        "operationId": "5bf2c5d5481397d95271ddcb",
+        "parameters": [
+          {
+            "name": "programId",
+            "in": "path",
+            "description": "The program id to associated to the site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "siteId",
+            "in": "path",
+            "description": "The site id to get data from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date to request data from (URL encoded)",
+            "schema": {
+              "enum": [
+                "2018-03-01T00:00%2B02:00"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date to request data to (URL encoded)",
+            "schema": {
+              "enum": [
+                "2018-04-01T00:00%2B02:00"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Group data by period",
+            "schema": {
+              "enum": [
+                "month",
+                "day",
+                "hour"
+              ],
+              "type": "string",
+              "default": "month"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category of data to retreive (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "main",
+                "usage",
+                "load"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "meterId",
+            "in": "query",
+            "description": "Asset meter id filter of data to retrieve (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "mainElectricity",
+                "usageHeating"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token provided by Schneider",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Bearer ....."
+              ],
+              "type": "string",
+              "default": "Bearer ....."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data can be retrieved from the response payload",
+            "content": {
+              "application/json": {
+                "example": {
+                  "siteId": "123-456-789",
+                  "siteName": "my site #104",
+                  "buildingId": "123s4ds-fsq55f4-s6f",
+                  "buildingName": "my building",
+                  "flatType": "appartment",
+                  "surface": 50,
+                  "deltaList": {
+                    "startTimestamp": 1522533600000,
+                    "endTimestamp": 1522792800000,
+                    "meters": {
+                      "mainElectricity": {
+                        "meterId": "mainElectricity",
+                        "startTimestamp": 1522533600000,
+                        "endTimestamp": 1522792800000,
+                        "measurementType": "consumption",
+                        "deltaUnit": "WH-electricity",
+                        "delta": 136865,
+                        "deltaOnGrid": 136865,
+                        "deltas": [
+                          {
+                            "group": "2018-04-01T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522533600000,
+                            "endTimestamp": 1522620000000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 45454,
+                            "deltaOnGrid": 45454
+                          },
+                          {
+                            "group": "2018-04-02T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522620000000,
+                            "endTimestamp": 1522706400000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 45578,
+                            "deltaOnGrid": 45578
+                          },
+                          {
+                            "group": "2018-04-03T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522706400000,
+                            "endTimestamp": 1522792800000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 45833,
+                            "deltaOnGrid": 45833
+                          }
+                        ]
+                      },
+                      "0080F4C90234::150_0": {
+                        "meterId": "0080F4C90234::150_0",
+                        "label": "my lamp",
+                        "startTimestamp": 1522533600000,
+                        "endTimestamp": 1522792800000,
+                        "measurementType": "consumption",
+                        "deltaUnit": "WH-electricity",
+                        "delta": 136865,
+                        "deltaOnGrid": 136865,
+                        "deltas": [
+                          {
+                            "group": "2018-04-01T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522533600000,
+                            "endTimestamp": 1522620000000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 458,
+                            "deltaOnGrid": 458
+                          },
+                          {
+                            "group": "2018-04-02T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522620000000,
+                            "endTimestamp": 1522706400000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 365,
+                            "deltaOnGrid": 365
+                          },
+                          {
+                            "group": "2018-04-03T00:00:00.0000000+00:00",
+                            "startTimestamp": 1522706400000,
+                            "endTimestamp": 1522792800000,
+                            "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                            "deltaUnit": "WH-electricity",
+                            "delta": 124,
+                            "deltaOnGrid": 124
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request or the param are malformed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorCode": 400,
+                  "errorText": "Program not found",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not authenticated."
+          },
+          "403": {
+            "description": "User doesn't have access to this resource."
+          },
+          "404": {
+            "description": "Site not found."
+          }
+        }
+      }
+    },
+    "/v1/collectiveResidentialData/delta/{programId}": {
+      "get": {
+        "tags": [
+          "Data",
+          "Community"
+        ],
+        "summary": "Get delta values for program",
+        "description": "Get energy delta (in Watt per hour) by category and group result by period for residential collective program\nThis will return energy data (deltas) matching the requested parameters for every site in the program.",
+        "operationId": "get-delta-values-for-program",
+        "parameters": [
+          {
+            "name": "programId",
+            "in": "path",
+            "description": "The program id to get data from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date to request data from (URL encoded)",
+            "schema": {
+              "enum": [
+                "2018-03-01T00:00%2B02:00"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date to request data to (URL encoded)",
+            "schema": {
+              "enum": [
+                "2018-04-01T00:00%2B02:00"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Group data by period",
+            "schema": {
+              "enum": [
+                "month",
+                "day",
+                "hour"
+              ],
+              "type": "string",
+              "default": "month"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category of data to retreive (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "main",
+                "usage",
+                "load"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "meterId",
+            "in": "query",
+            "description": "Asset meter id filter of data to retrieve (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "mainElectricity",
+                "usageHeating"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token provided by Schneider",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Bearer ....."
+              ],
+              "type": "string",
+              "default": "Bearer ....."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data can be retrieved from the response payload",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "siteId": "123-456-789",
+                    "siteName": "my site #104",
+                    "buildingId": "123s4ds-fsq55f4-s6f",
+                    "buildingName": "my building",
+                    "flatType": "appartment",
+                    "surface": 50,
+                    "deltaList": {
+                      "startTimestamp": 1522533600000,
+                      "endTimestamp": 1522792800000,
+                      "meters": {
+                        "mainElectricity": {
+                          "meterId": "mainElectricity",
+                          "startTimestamp": 1522533600000,
+                          "endTimestamp": 1522792800000,
+                          "measurementType": "consumption",
+                          "deltaUnit": "WH-electricity",
+                          "delta": 136865,
+                          "deltaOnGrid": 136865,
+                          "deltas": [
+                            {
+                              "group": "2018-04-01T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522533600000,
+                              "endTimestamp": 1522620000000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 45454,
+                              "deltaOnGrid": 45454
+                            },
+                            {
+                              "group": "2018-04-02T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522620000000,
+                              "endTimestamp": 1522706400000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 45578,
+                              "deltaOnGrid": 45578
+                            },
+                            {
+                              "group": "2018-04-03T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522706400000,
+                              "endTimestamp": 1522792800000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 45833,
+                              "deltaOnGrid": 45833
+                            }
+                          ]
+                        },
+                        "0080F4C90234::150_0": {
+                          "meterId": "0080F4C90234::150_0",
+                          "label": "my lamp",
+                          "startTimestamp": 1522533600000,
+                          "endTimestamp": 1522792800000,
+                          "measurementType": "consumption",
+                          "deltaUnit": "WH-electricity",
+                          "delta": 136865,
+                          "deltaOnGrid": 136865,
+                          "deltas": [
+                            {
+                              "group": "2018-04-01T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522533600000,
+                              "endTimestamp": 1522620000000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 458,
+                              "deltaOnGrid": 458
+                            },
+                            {
+                              "group": "2018-04-02T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522620000000,
+                              "endTimestamp": 1522706400000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 365,
+                              "deltaOnGrid": 365
+                            },
+                            {
+                              "group": "2018-04-03T00:00:00.0000000+00:00",
+                              "startTimestamp": 1522706400000,
+                              "endTimestamp": 1522792800000,
+                              "meterId": "aa13fe35-f1c0-4d9e-bf0c-3feadf4820b0",
+                              "deltaUnit": "WH-electricity",
+                              "delta": 124,
+                              "deltaOnGrid": 124
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "The request or the param are malformed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorCode": 400,
+                  "errorText": "Program not found",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not authenticated."
+          },
+          "403": {
+            "description": "User doesn't have access to this resource."
+          },
+          "404": {
+            "description": "Program not found."
+          }
+        }
+      }
+    },
+    "/v1/collectiveResidentialData/instant/{programId}/{siteId}": {
+      "get": {
+        "tags": [
+          "Data",
+          "Community"
+        ],
+        "summary": "Get instant value for site in program",
+        "description": "Get instant values by category and meterId of a  site from a residential collective program\nThis will return instant values matching the requested parameters for the siteId.",
+        "operationId": "get-instant-value-for-site-in-program",
+        "parameters": [
+          {
+            "name": "programId",
+            "in": "path",
+            "description": "The program id to associated to the site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "siteId",
+            "in": "path",
+            "description": "The site id to get data from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date to request data from (URL encoded)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date to request data to (URL encoded)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category of data to retreive (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "main",
+                "usage",
+                "load"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "meterId",
+            "in": "query",
+            "description": "Asset meter id filter of data to retrieve (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "mainElectricity",
+                "usageHeating"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token provided by Schneider",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is not authenticated.",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "The request or the param are malformed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorCode": 400,
+                  "errorText": "Program not found",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not authenticated."
+          },
+          "403": {
+            "description": "User doesn't have access to this resource."
+          },
+          "404": {
+            "description": "Program or site not found."
+          }
+        }
+      }
+    },
+    "/v1/collectiveResidentialData/instant/{programId}": {
+      "get": {
+        "tags": [
+          "Data",
+          "Community"
+        ],
+        "summary": "Get instant values for a program",
+        "description": "Get instant values by category and meterId of a residential collective program\nThis will return instant values matching the requested parameters for the program.",
+        "operationId": "get-instant-values-for-a-program",
+        "parameters": [
+          {
+            "name": "programId",
+            "in": "path",
+            "description": "The program id to associated to the site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date to request data from (URL encoded)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date to request data to (URL encoded)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category of data to retreive (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "main",
+                "usage",
+                "load"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "meterId",
+            "in": "query",
+            "description": "Asset meter id filter of data to retrieve (mutiple is allow, separated by comma)",
+            "schema": {
+              "enum": [
+                "mainElectricity",
+                "usageHeating"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token provided by Schneider",
+            "schema": {
+              "enum": [
+                "Bearer ....."
+              ],
+              "type": "string",
+              "default": "Bearer ....."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Instant values were found and can be displayed",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "The request or the param are malformed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorCode": 400,
+                  "errorText": "Program not found",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not authenticated."
+          },
+          "403": {
+            "description": "User doesn't have access to this resource."
+          },
+          "404": {
+            "description": "Program not found."
+          }
+        }
+      }
+    },
+    "/v1/collectiveResidentialProgram/agreement": {
+      "post": {
+        "tags": [
+          "Community",
+          "Management"
+        ],
+        "summary": "Update the end user agreement status",
+        "description": "Register an end user agreement (or disagreement) to store data related to a mac address.",
+        "operationId": "5c76aa38d8516d721b54daad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token provided by Schneider",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Bearer ....."
+              ],
+              "type": "string",
+              "default": "Bearer ....."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "macAddress": "0080XXXXXX",
+                "agreement": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "End user agreement status has been registered"
+          },
+          "400": {
+            "description": "The request or the param are malformed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errorCode": 400,
+                  "errorText": "Malformed request",
+                  "data": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not authenticated."
+          },
+          "403": {
+            "description": "User doesn't have access to this resource."
+          },
+          "404": {
+            "description": "Mac address does not belong to a program linked to the given partner"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }	
+    }	
+  },	
+  "security": [	
+    {	
+      "apiKeyHeader": []	
+    }
+  ]
+}

@@ -1,0 +1,353 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "To fully use this API, you must first login using this provider",
+    "version": "v20150608 (build 2.8.0-SNAPSHOT)",
+    "title": "Wiser Datawarehouse public API documentation"
+  },
+  "host": "se-exchange-pre-prod-sandbox.apigee.net",
+  "basePath": "/fd-wiser",
+  "schemes": ["https"],
+  "paths": {
+    "/v1/collectiveResidentialData/delta/{programId}": {
+      "get": {
+        "tags": ["Collective residential data exposition"],
+        "summary": "Get energy data for every site in the given program.",
+        "description": "This will return energy data (delta) matching the requested parameters for every site in the program.",
+        "operationId": "getDeltaForProgram",
+        "parameters": [{
+          "name": "category",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["main", "usage", "load"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "meterId",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["mainElectricity", "mainGas", "mainColdWater", "mainHotWater", "mainCalorimeter", "usageHeating", "usageCooling", "usageSanitaryHotWater", "usageSockets", "usageOthers", "usageCooking", "loadSem1", "loadSem2", "loadSem3", "loadSem4", "loadSem5", "loadMpr1", "loadMpr2", "loadMpr3", "loadMpr4", "loadM2i11", "loadM2i12", "loadM2i21", "loadM2i22", "loadM2i31", "loadM2i32"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "from",
+          "in": "query",
+          "description": "'from' date time (ISO 8601 representation).<br> If null then assumes first day of month.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "to",
+          "in": "query",
+          "description": "'to' date time (ISO 8601 representation).<br> If null assumes now.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "groupBy",
+          "in": "query",
+          "description": "To group results",
+          "required": false,
+          "type": "string",
+          "default": "month",
+          "enum": ["quarter_hour", "hour", "day", "month"]
+        }, {
+          "name": "dateTime",
+          "in": "query",
+          "description": "If true result will contain date time, otherwise only timestamps",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "loadgrouping",
+          "in": "query",
+          "description": "If false, the load deltas will not be merged into their group if exist.<br/>By default, load deltas will be merged to expose only groups",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }, {
+          "name": "programId",
+          "in": "path",
+          "description": "Please leave this default value as-is (5c1906c4d773a1000100e754) on SANDBOX. If using on PROD, use your own programId",
+          "required": true,
+          "type": "string",
+          "default": "5c1906c4d773a1000100e754"
+        }, {
+          "name": "apiKey",
+          "in": "header",
+          "description": "Technical token provided by SE<br/> SANDBOX env: Optional Field <br/> PROD env : Please add the value provided by SE",
+          "required": false,
+          "type": "string"
+        }]
+      }
+    },
+    "/v1/collectiveResidentialData/delta/{programId}/{siteId}": {
+      "get": {
+        "tags": ["Collective residential data exposition"],
+        "summary": "Get energy data for a specific site in the given program.",
+        "description": "This will return energy data (delta) matching the requested parameters for every site in the program.",
+        "operationId": "getDeltaForSite",
+        "parameters": [{
+          "name": "category",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["main", "usage", "load"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "meterId",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["mainElectricity", "mainGas", "mainColdWater", "mainHotWater", "mainCalorimeter", "usageHeating", "usageCooling", "usageSanitaryHotWater", "usageSockets", "usageOthers", "usageCooking", "loadSem1", "loadSem2", "loadSem3", "loadSem4", "loadSem5", "loadMpr1", "loadMpr2", "loadMpr3", "loadMpr4", "loadM2i11", "loadM2i12", "loadM2i21", "loadM2i22", "loadM2i31", "loadM2i32"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "from",
+          "in": "query",
+          "description": "'from' date time (ISO 8601 representation).<br> If null then assumes first day of month.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "to",
+          "in": "query",
+          "description": "'to' date time (ISO 8601 representation).<br> If null assumes now.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "groupBy",
+          "in": "query",
+          "description": "To group results",
+          "required": false,
+          "type": "string",
+          "default": "month",
+          "enum": ["hour", "day", "week", "month", "year"]
+        }, {
+          "name": "dateTime",
+          "in": "query",
+          "description": "If true result will contain date time, otherwise only timestamps",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "loadgrouping",
+          "in": "query",
+          "description": "If false, the load deltas will not be merged into their group if exist.<br/>By default, load deltas will be merged to expose only groups",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }, {
+          "name": "programId",
+          "in": "path",
+          "description": "Please leave this default value as-is (5c1906c4d773a1000100e754) on SANDBOX. If using on PROD, use your own programId",
+          "required": true,
+          "type": "string",
+          "default": "5c1906c4d773a1000100e754"
+        }, {
+          "name": "siteId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "apiKey",
+          "in": "header",
+          "description": "Technical token provided by SE<br/> SANDBOX env: Optional Field <br/> PROD env : Please add the value provided by SE",
+          "required": false,
+          "type": "string"
+        }]
+      }
+    },
+    "/v1/collectiveResidentialData/instant/{programId}": {
+      "get": {
+        "tags": ["Collective residential data exposition"],
+        "summary": "Get instant values for program",
+        "description": "Get instant values between 'from' and 'to'. Limit: 120 instant values. By default, returns data for all configured meters.",
+        "operationId": "getInstantValuesForProgram",
+        "parameters": [{
+          "name": "category",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["main", "usage", "load"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "meterId",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["mainElectricity", "mainGas", "mainColdWater", "mainHotWater", "mainCalorimeter", "usageHeating", "usageCooling", "usageSanitaryHotWater", "usageSockets", "usageOthers", "usageCooking", "loadSem1", "loadSem2", "loadSem3", "loadSem4", "loadSem5", "loadMpr1", "loadMpr2", "loadMpr3", "loadMpr4", "loadM2i11", "loadM2i12", "loadM2i21", "loadM2i22", "loadM2i31", "loadM2i32"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "from",
+          "in": "query",
+          "description": "'from' date time (ISO 8601 representation).<br> If null then only return last instant value before 'to', otherwise return all instant values between 'from' and 'to'.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "to",
+          "in": "query",
+          "description": "'to' date time (ISO 8601 representation).<br> If null assumes now.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "dateTime",
+          "in": "query",
+          "description": "If true result will contain date time, otherwise only timestamps",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "cost",
+          "in": "query",
+          "description": "If true result will contain cost",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "loadgrouping",
+          "in": "query",
+          "description": "If false, the load instants will not be merged into their group if exist.<br/>By default, load instants will be merged to expose only groups",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }, {
+          "name": "programId",
+          "in": "path",
+          "description": "Please leave this default value as-is (5c1906c4d773a1000100e754) on SANDBOX. If using on PROD, use your own programId",
+          "required": true,
+          "type": "string",
+          "default": "5c1906c4d773a1000100e754"
+        }, {
+          "name": "apiKey",
+          "in": "header",
+          "description": "Technical token provided by SE<br/> SANDBOX env: Optional Field <br/> PROD env : Please add the value provided by SE",
+          "required": false,
+          "type": "string"
+        }]
+      }
+    },
+    "/v1/collectiveResidentialData/instant/{programId}/{siteId}": {
+      "get": {
+        "tags": ["Collective residential data exposition"],
+        "summary": "Get instant values for a specific site in the program",
+        "description": "Get instant values between 'from' and 'to'. Limit: 120 instant values. By default, returns data for all configured meters.",
+        "operationId": "getInstantValuesForSite",
+        "parameters": [{
+          "name": "category",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["main", "usage", "load"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "meterId",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "enum": ["mainElectricity", "mainGas", "mainColdWater", "mainHotWater", "mainCalorimeter", "usageHeating", "usageCooling", "usageSanitaryHotWater", "usageSockets", "usageOthers", "usageCooking", "loadSem1", "loadSem2", "loadSem3", "loadSem4", "loadSem5", "loadMpr1", "loadMpr2", "loadMpr3", "loadMpr4", "loadM2i11", "loadM2i12", "loadM2i21", "loadM2i22", "loadM2i31", "loadM2i32"],
+          "collectionFormat": "multi"
+        }, {
+          "name": "from",
+          "in": "query",
+          "description": "'from' date time (ISO 8601 representation).<br> If null then only return last instant value before 'to', otherwise return all instant values between 'from' and 'to'.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "to",
+          "in": "query",
+          "description": "'to' date time (ISO 8601 representation).<br> If null assumes now.",
+          "required": false,
+          "type": "string"
+        }, {
+          "name": "dateTime",
+          "in": "query",
+          "description": "If true result will contain date time, otherwise only timestamps",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "cost",
+          "in": "query",
+          "description": "If true result will contain cost",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        }, {
+          "name": "loadgrouping",
+          "in": "query",
+          "description": "If false, the load instants will not be merged into their group if exist.<br/>By default, load instants will be merged to expose only groups",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }, {
+          "name": "programId",
+          "in": "path",
+          "description": "Please leave this default value as-is (5c1906c4d773a1000100e754) on SANDBOX. If using on PROD, use your own programId",
+          "required": true,
+          "type": "string",
+          "default": "5c1906c4d773a1000100e754"
+        }, {
+          "name": "siteId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "apiKey",
+          "in": "header",
+          "description": "Technical token provided by SE<br/> SANDBOX env: Optional Field <br/> PROD env : Please add the value provided by SE",
+          "required": false,
+          "type": "string"
+        }]
+      }
+    },
+    "/v1/collectiveResidentialProgram/agreement": {
+      "post": {
+        "tags": ["Collective residential management"],
+        "summary": "Register an end user agreement (or disagreement) to store data related to a mac address.",
+        "description": "If the device is linked to a multi gateway site, the other devices will also be part of the agreement.",
+        "operationId": "registerAgreement",
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Agreement"
+          }
+        }, {
+          "name": "apiKey",
+          "in": "header",
+          "description": "Technical token provided by SE<br/> SANDBOX env: Optional Field <br/> PROD env : Please add the value provided by SE",
+          "required": false,
+          "type": "string"
+        }]
+      }
+    }
+	},
+	  "definitions" : {
+    "Agreement" : {
+      "type" : "object",
+      "properties" : {
+        "macAddress" : {
+          "type" : "string"
+        },
+        "siteId" : {
+          "type" : "string"
+        },
+        "relatedMacAddresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "agreement" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "timestamp" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "initiator" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

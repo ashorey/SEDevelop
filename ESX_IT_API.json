@@ -1,0 +1,1142 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {  
+    "title" : "EcoStruxure IT API",
+   "description": {
+      "$ref": "md_files/ESX_IT-README.md"
+         },
+    "termsOfService" : "https://ecostruxureit.com/policies",
+    "contact" : {
+      "name" : "EcoStruxure IT",
+      "url" : "https://ecostruxureit.com",
+      "email" : "support@ecostruxureit.com"
+    },
+    "version" : "beta"
+  },
+  "paths" : {
+    "/rest/v1/organizations" : {
+      "get" : {
+        "tags" : [ "organization" ],
+        "summary" : "List organization IDs for API key",
+        "description" : "Rate limit: At least 10 calls per minute",
+        "operationId" : "listOrganizations",
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/alarm-changes/{offset}" : {
+      "get" : {
+        "tags" : [ "alarms" ],
+        "summary" : "Get alarm changes after offset",
+        "description" : "Returns new or updated alarms that occurred since the specified offset. Note that alarms are never deleted but may transition from being active to being cleared. Rate limit: 10 calls per minute, short bursts allowed.",
+        "operationId" : "getAlarmChangesAfterOffset",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AlarmChangesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/alarms" : {
+      "get" : {
+        "tags" : [ "alarms" ],
+        "summary" : "List alarms",
+        "description" : "Returns active alarms and alarms that cleared recently. Rate limit: At least 6 calls per hour.",
+        "operationId" : "listAlarms",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AlarmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/inventory" : {
+      "get" : {
+        "tags" : [ "inventory" ],
+        "summary" : "List inventory objects",
+        "description" : "Rate limit: At least 6 calls per hour",
+        "operationId" : "listInventory",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InventoryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/inventory-changes/{offset}" : {
+      "get" : {
+        "tags" : [ "inventory" ],
+        "summary" : "Get inventory object changes after offset",
+        "description" : "Returns new or updated inventory objects as well as IDs of deleted inventory objects since the specified offset. Rate limit: 10 calls per minute, short bursts allowed.",
+        "operationId" : "getInventoryChangesAfterOffset",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InventoryChangesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/inventory/{deviceId}" : {
+      "get" : {
+        "tags" : [ "inventory" ],
+        "summary" : "Get device",
+        "description" : "Returns an inventory object of type device. In addition to the device itself, the response also contains the ancestors of the device using its parentId and locationId properties. Finally, the organization object is included. Rate limit: 100 calls per minute, short bursts allowed.",
+        "operationId" : "getDevice",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "deviceId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetDeviceResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Device was not found"
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/measurements/live" : {
+      "get" : {
+        "tags" : [ "measurements" ],
+        "summary" : "Stream live measurements",
+        "description" : "Rate limit: At least 2 simultaneous connections. Note that this operation keeps the connection alive and returns a stream of JSON documents and heartbeats (empty lines). See the API documentation for more information. This operation cannot be tested using Swagger UI.",
+        "operationId" : "liveMeasurements",
+        "parameters" : [ {
+          "name" : "Accept-Encoding",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "oneOf" : [ {
+                    "$ref" : "#/components/schemas/Measurement"
+                  }, {
+                    "type" : "string"
+                  } ]
+                }
+              }
+            }
+          },
+          "406" : {
+            "description" : "Accept-Encoding header must include 'gzip'"
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/measurements/live-simulator" : {
+      "get" : {
+        "tags" : [ "measurements" ],
+        "summary" : "Stream simulated live measurements",
+        "description" : "Rate limit: At least 1 simultaneous connection. Note that this operation keeps the connection alive and returns a stream of JSON documents and heartbeats (empty lines). See the API documentation for more information. This operation cannot be tested using Swagger UI.",
+        "operationId" : "simulatedLiveMeasurements",
+        "parameters" : [ {
+          "name" : "Accept-Encoding",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "measurementsPerSecond",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 100
+          }
+        }, {
+          "name" : "sensorCount",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 1000
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "oneOf" : [ {
+                    "$ref" : "#/components/schemas/Measurement"
+                  }, {
+                    "type" : "string"
+                  } ]
+                }
+              }
+            }
+          },
+          "406" : {
+            "description" : "Accept-Encoding header must include 'gzip'"
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/measurements/replay" : {
+      "get" : {
+        "tags" : [ "measurements" ],
+        "summary" : "Stream replay measurements",
+        "description" : "Rate limit: 60 minutes of replayed data (you cannot have a replay connection open for 60 minutes - only until it has replayed 60 minutes worth of measurements). Note that this operation returns a stream of JSON documents and heartbeats (empty lines). When completed successfully, the last JSON document is CompletedReplaySystemMessage. See the API documentation for more information. This operation cannot be tested using Swagger UI.",
+        "operationId" : "replayMeasurements",
+        "parameters" : [ {
+          "name" : "Accept-Encoding",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fromOffset",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "toOffset",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "oneOf" : [ {
+                    "$ref" : "#/components/schemas/Measurement"
+                  }, {
+                    "type" : "string"
+                  }, {
+                    "$ref" : "#/components/schemas/ReplaySystemMessage"
+                  } ]
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid query parameters fromOffset and/or toOffset, e.g. if toOffset < fromOffset, or the time distance between them is more than what will ever be allowed"
+          },
+          "406" : {
+            "description" : "Accept-Encoding header must include 'gzip'"
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/sensor-changes/{offset}" : {
+      "get" : {
+        "tags" : [ "sensors" ],
+        "summary" : "Get sensor changes after offset",
+        "description" : "Returns new or updated sensors as well as IDs of deleted sensors since the specified offset. Rate limit: 10 calls per minute, short bursts allowed.",
+        "operationId" : "getSensorChangesAfterOffset",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SensorChangesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    },
+    "/rest/v1/organizations/{organizationId}/sensors" : {
+      "get" : {
+        "tags" : [ "sensors" ],
+        "summary" : "List sensors",
+        "description" : "Rate limit: At least 6 calls per hour",
+        "operationId" : "listSensors",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Missing or invalid API key. Did you remember to prefix your API key with 'bearer ' in the Authorization HTTP header?"
+          },
+          "403" : {
+            "description" : "API key does not allow access to organization"
+          },
+          "429" : {
+            "description" : "Too many requests, please try again later"
+          },
+          "500" : {
+            "description" : "Unknown error occurred, please try again later"
+          },
+          "503" : {
+            "description" : "API is currently unavailable"
+          },
+          "200" : {
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SensorsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "apiKey" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Alarm" : {
+        "required" : [ "activatedTime", "deviceId", "id", "label", "message", "severity" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "Unique ID of this alarm. Updates to the same alarm have the same ID."
+          },
+          "deviceId" : {
+            "type" : "string",
+            "description" : "ID of the device on which this alarm occurred."
+          },
+          "label" : {
+            "type" : "string",
+            "description" : "Short description of this alarm. Updates to this alarm may change the label."
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "Description of this alarm. Updates to this alarm may change the message."
+          },
+          "severity" : {
+            "type" : "string",
+            "description" : "Severity of this alarm. Updates to this alarm may change the severity.",
+            "enum" : [ "UNKNOWN", "INITIALIZE", "FAIL", "CRITICAL", "ERROR", "WARNING", "INFO", "OK" ]
+          },
+          "activatedTime" : {
+            "type" : "string",
+            "description" : "Time when this alarm activated. An alarm is active until it has a cleared time.",
+            "format" : "date-time"
+          },
+          "clearedTime" : {
+            "type" : "string",
+            "description" : "Time when this alarm cleared. If this property is missing, the alarm is still active.",
+            "format" : "date-time"
+          }
+        },
+        "description" : "Zero or more alarms."
+      },
+      "AlarmChangesResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "alarms" : {
+            "type" : "array",
+            "description" : "Zero or more alarms.",
+            "items" : {
+              "$ref" : "#/components/schemas/Alarm"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for alarm changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      },
+      "AlarmsResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "alarms" : {
+            "type" : "array",
+            "description" : "Zero or more alarms.",
+            "items" : {
+              "$ref" : "#/components/schemas/Alarm"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for alarm changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      },
+      "CompletedReplaySystemMessage" : {
+        "type" : "object",
+        "description" : "Signals that a replay was completed successfully.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ReplaySystemMessage"
+        } ]
+      },
+      "Device" : {
+        "required" : [ "gatewayIds", "id", "type" ],
+        "type" : "object",
+        "description" : "A device which may have a parent device and a location among other properties.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/InventoryObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "parentId" : {
+              "type" : "string",
+              "description" : "ID of the parent device. If this property is missing, then this device is a main device. Examples include a battery having a UPS as parent and a plug having a rack-mount PDU as parent."
+            },
+            "locationId" : {
+              "type" : "string",
+              "description" : "ID of the location in which this device is located. This value can manually be set by users via the web interface."
+            },
+            "type" : {
+              "type" : "string",
+              "description" : "Type of this device."
+            },
+            "gatewayIds" : {
+              "minItems" : 1,
+              "type" : "array",
+              "description" : "IDs of the gateways that monitor this device.",
+              "items" : {
+                "type" : "string"
+              }
+            },
+            "manufacturerName" : {
+              "type" : "string",
+              "description" : "Name of the manufacturer of this device."
+            },
+            "modelName" : {
+              "type" : "string",
+              "description" : "Name of the model of this device."
+            },
+            "serialNumber" : {
+              "type" : "string",
+              "description" : "The serial number of this device."
+            },
+            "hardwareVersion" : {
+              "type" : "string",
+              "description" : "The hardware version of this device."
+            },
+            "firmwareVersion" : {
+              "type" : "string",
+              "description" : "The firmware version of this device."
+            },
+            "networkCardOperatingSystemVersion" : {
+              "type" : "string",
+              "description" : "The operating system version of the network card in this device. For Schneider Electric devices this is also known as AOS version."
+            },
+            "networkCardApplicationVersion" : {
+              "type" : "string",
+              "description" : "The application version of the network card in this device. For Schneider Electric devices this is also known as application version."
+            },
+            "macAddresses" : {
+              "minItems" : 1,
+              "type" : "array",
+              "description" : "The MAC addresses of this device.",
+              "items" : {
+                "type" : "string"
+              }
+            },
+            "ipV4Addresses" : {
+              "minItems" : 1,
+              "type" : "array",
+              "description" : "The IPv4 addresses of this device.",
+              "items" : {
+                "type" : "string"
+              }
+            },
+            "ipV6Addresses" : {
+              "minItems" : 1,
+              "type" : "array",
+              "description" : "The IPv6 addresses of this device.",
+              "items" : {
+                "type" : "string"
+              }
+            },
+            "hostname" : {
+              "type" : "string",
+              "description" : "The hostname of this device."
+            },
+            "id" : {
+              "type" : "string",
+              "description" : "Unique ID of this device."
+            },
+            "label" : {
+              "type" : "string",
+              "description" : "Label of this device. This value can manually be set by users via the web interface."
+            }
+          }
+        } ]
+      },
+      "GetDeviceResponse" : {
+        "required" : [ "ancestors", "device", "iteLink" ],
+        "type" : "object",
+        "properties" : {
+          "device" : {
+            "$ref" : "#/components/schemas/Device"
+          },
+          "ancestors" : {
+            "type" : "array",
+            "description" : "The ancestors of the requested device. May include both devices and locations ordered from device to topmost location. Always includes organization as the final ancestor. An example is a UPS device, a building location, and the organization when the requested device is a battery.",
+            "items" : {
+              "$ref" : "#/components/schemas/InventoryObject"
+            }
+          },
+          "iteLink" : {
+            "type" : "string",
+            "description" : "A link to the device in EcoStruxure IT Expert."
+          }
+        }
+      },
+      "InventoryChangesResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "inventoryObjectChanges" : {
+            "type" : "array",
+            "description" : "Zero or more inventory changes.",
+            "items" : {
+              "$ref" : "#/components/schemas/InventoryObjectChange"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for inventory changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      },
+      "InventoryObject" : {
+        "required" : [ "id", "inventoryObjectType" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "Unique ID of this inventory object."
+          },
+          "label" : {
+            "type" : "string",
+            "description" : "Label of this inventory object. This value can manually be set by users via the web interface."
+          },
+          "inventoryObjectType" : {
+            "type" : "string"
+          }
+        },
+        "description" : "A device, a location, or an organization.",
+        "discriminator" : {
+          "propertyName" : "inventoryObjectType"
+        }
+      },
+      "InventoryObjectChange" : {
+        "required" : [ "operation" ],
+        "type" : "object",
+        "properties" : {
+          "operation" : {
+            "type" : "string"
+          }
+        },
+        "description" : "An inventory object create/update or an inventory object delete.",
+        "discriminator" : {
+          "propertyName" : "operation"
+        }
+      },
+      "InventoryObjectCreateOrUpdate" : {
+        "required" : [ "inventoryObject" ],
+        "type" : "object",
+        "description" : "Signals that an inventory object has been created or updated.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/InventoryObjectChange"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "inventoryObject" : {
+              "$ref" : "#/components/schemas/InventoryObject"
+            }
+          }
+        } ]
+      },
+      "InventoryObjectDelete" : {
+        "required" : [ "inventoryObjectId" ],
+        "type" : "object",
+        "description" : "Signals that an inventory object has been deleted.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/InventoryObjectChange"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "inventoryObjectId" : {
+              "type" : "string",
+              "description" : "The unique ID of the inventory object that has been deleted."
+            }
+          }
+        } ]
+      },
+      "InventoryResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "inventoryObjects" : {
+            "type" : "array",
+            "description" : "Zero or more inventory objects.",
+            "items" : {
+              "$ref" : "#/components/schemas/InventoryObject"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for inventory changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      },
+      "Location" : {
+        "required" : [ "id", "type" ],
+        "type" : "object",
+        "description" : "A location which may have a parent location among other properties.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/InventoryObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "parentId" : {
+              "type" : "string",
+              "description" : "ID of the location in which this location is located. This value can manually be set by users via the web interface."
+            },
+            "type" : {
+              "type" : "string",
+              "description" : "Type of this location."
+            },
+            "address" : {
+              "type" : "string",
+              "description" : "Address of this location. This value can manually be set by users via the web interface."
+            },
+            "id" : {
+              "type" : "string",
+              "description" : "Unique ID of this location."
+            },
+            "label" : {
+              "type" : "string",
+              "description" : "Label of this location. This value can manually be set by users via the web interface."
+            }
+          }
+        } ]
+      },
+      "Measurement" : {
+        "required" : [ "sensorId", "timestamp" ],
+        "type" : "object",
+        "properties" : {
+          "sensorId" : {
+            "type" : "string",
+            "description" : "ID of the sensor that reported this measurement."
+          },
+          "timestamp" : {
+            "type" : "string",
+            "description" : "The time at which this measurement was made.",
+            "format" : "date-time"
+          },
+          "numericValue" : {
+            "type" : "number",
+            "description" : "Numeric value of this measurement. Exactly one of the numericValue and stringValue fields will be present.",
+            "format" : "double"
+          },
+          "stringValue" : {
+            "type" : "string",
+            "description" : "String value of this measurement. Exactly one of the numericValue and stringValue fields will be present."
+          },
+          "offset" : {
+            "type" : "string",
+            "description" : "An offset to use when replaying measurements."
+          }
+        }
+      },
+      "Organization" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "description" : "A organization which may have a label and an address.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/InventoryObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "address" : {
+              "type" : "string",
+              "description" : "Address of this organization. This value can manually be set by users via the web interface."
+            },
+            "id" : {
+              "type" : "string",
+              "description" : "Unique ID of this organization."
+            },
+            "label" : {
+              "type" : "string",
+              "description" : "Label of this organization. This value can manually be set by users via the web interface."
+            }
+          }
+        } ]
+      },
+      "OrganizationsResponse" : {
+        "required" : [ "organizationIds" ],
+        "type" : "object",
+        "properties" : {
+          "organizationIds" : {
+            "type" : "array",
+            "description" : "IDs of the organizations to which access is granted.",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "RateLimitReachedReplaySystemMessage" : {
+        "type" : "object",
+        "description" : "Signals that the replay could not be completed because the rate limit was reached.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ReplaySystemMessage"
+        } ]
+      },
+      "ReplaySystemMessage" : {
+        "required" : [ "replaySystemMessageType" ],
+        "type" : "object",
+        "properties" : {
+          "replaySystemMessageType" : {
+            "type" : "string"
+          }
+        },
+        "description" : "A system message related to replays.",
+        "discriminator" : {
+          "propertyName" : "replaySystemMessageType"
+        }
+      },
+      "Sensor" : {
+        "required" : [ "deviceId", "id", "name", "unit" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "Unique ID of this sensor. Updates to the same sensor have the same ID."
+          },
+          "deviceId" : {
+            "type" : "string",
+            "description" : "ID of the device to which this sensor is attached."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of this sensor."
+          },
+          "unit" : {
+            "type" : "string",
+            "description" : "Unit of this sensor."
+          }
+        },
+        "description" : "Zero or more sensors."
+      },
+      "SensorChange" : {
+        "required" : [ "operation" ],
+        "type" : "object",
+        "properties" : {
+          "operation" : {
+            "type" : "string"
+          }
+        },
+        "description" : "A sensor create/update or a sensor delete.",
+        "discriminator" : {
+          "propertyName" : "operation"
+        }
+      },
+      "SensorChangesResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "sensorChanges" : {
+            "type" : "array",
+            "description" : "Zero or more sensor changes.",
+            "items" : {
+              "$ref" : "#/components/schemas/SensorChange"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for sensor changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      },
+      "SensorCreateOrUpdate" : {
+        "required" : [ "sensor" ],
+        "type" : "object",
+        "description" : "Signals that a sensor has been created or updated.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/SensorChange"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "sensor" : {
+              "$ref" : "#/components/schemas/Sensor"
+            }
+          }
+        } ]
+      },
+      "SensorDelete" : {
+        "required" : [ "sensorId" ],
+        "type" : "object",
+        "description" : "Signals that a sensor has been deleted.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/SensorChange"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "sensorId" : {
+              "type" : "string",
+              "description" : "The unique ID of the sensor that has been deleted."
+            }
+          }
+        } ]
+      },
+      "SensorsResponse" : {
+        "required" : [ "offset" ],
+        "type" : "object",
+        "properties" : {
+          "sensors" : {
+            "type" : "array",
+            "description" : "Zero or more sensors.",
+            "items" : {
+              "$ref" : "#/components/schemas/Sensor"
+            }
+          },
+          "offset" : {
+            "type" : "integer",
+            "description" : "An offset to use when querying for sensor changes that have occurred after this response was generated.",
+            "format" : "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "apiKey" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "API key"
+      }
+    }
+  }
+}
