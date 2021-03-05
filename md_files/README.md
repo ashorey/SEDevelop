@@ -1,5 +1,5 @@
 [<img align="right" src="https://raw.githubusercontent.com/maxim8898/redoc/master/btn_subscribe.png">](https://shop.exchange.se.com/en-US/apps/38969/building-energy-modeling)
-## Authentication - for AMITSHOREY
+## Authentication - FOR TESTING PURPOSES
 
 <img src="https://raw.githubusercontent.com/SE-Analytics-Team/public-images/master/forecasting_api/MicroApp.png" style="float: right" />
 
